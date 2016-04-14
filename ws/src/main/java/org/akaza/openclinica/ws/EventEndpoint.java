@@ -113,10 +113,7 @@ public class EventEndpoint {
     }
 
     @PayloadRoot(localPart = "eventInformationRequest", namespace = NAMESPACE_URI_V1)
-    public Source eventInformation(@XPathParam("//e:eventStatus") NodeList eventInformationRequest,
-                                    @XPathParam("//e:study") String study,
-                                    @XPathParam("//e:subjectLabel") String studySubjectLabel,
-                                    @XPathParam("//e:eventDefinitionOID") String eventDefinitionOID) throws Exception {
+    public Source eventInformation(@XPathParam("//e:eventStatus") NodeList eventInformationRequest) throws Exception {
         ResourceBundleProvider.updateLocale(new Locale("en_US"));
         Element eventInformationRequestElement = (Element) eventInformationRequest.item(0);
 
@@ -133,7 +130,7 @@ public class EventEndpoint {
                     studyEventTransferBean.getSiteUniqueId(),
                     studyEventTransferBean.getEventDefinitionOID(),
                     studyEventTransferBean.getSubjectLabel());
-            return new DOMSource(mapSuccessEventInfomationResponse(studyEventBeanList, eventDefinitionOID, studySubjectLabel));
+            return new DOMSource(mapSuccessEventInfomationResponse(studyEventBeanList, studyEventTransferBean.getEventDefinitionOID(), studyEventTransferBean.getSubjectLabel()));
         } else {
             return new DOMSource(mapFailConfirmation(errors));
         }
@@ -158,6 +155,10 @@ public class EventEndpoint {
         resultElement.setTextContent(messages.getMessage("eventEndpoint.success", null, "Success", locale));
         eventDefinitionOIDElement.setTextContent(eventDefinitionOID);
         studySubjectOIDElement.setTextContent(studySubjectOID);
+
+        responseElement.appendChild(resultElement);
+        responseElement.appendChild(eventDefinitionOIDElement);
+        responseElement.appendChild(studySubjectOIDElement);
 
 
         Element eventListElement = document.createElementNS(NAMESPACE_URI_V1, "events");
