@@ -21,7 +21,22 @@
         </sequence>
     </complexType>
     
-    
+
+    <complexType name="eventStatusType">
+        <sequence>
+            <element name="studyRef" type="beans:studyRefType" minOccurs="1" maxOccurs="1"/>
+            <element name="eventDefinitionOID" type="beans:customStringType" minOccurs="1" maxOccurs="1"/>
+            <element name="subject" type="beans:subjectType" minOccurs="1" maxOccurs="1"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="eventInformationResponseType">
+        <sequence>
+            <element name="status" type="beans:customStringType" minOccurs="1" maxOccurs="1"/>
+            <element name="repeatNumber" type="beans:customStringType" minOccurs="1" maxOccurs="1"/>
+            <element name="sampleOrdinal" type="beans:customStringType" minOccurs="1" maxOccurs="1"/>
+        </sequence>
+    </complexType>
 
 
     <complexType name="studySubjectType">
@@ -123,9 +138,6 @@
             <element name="passwordRequired" type="boolean"/>
             <element name="hideCrf" type="boolean"/>
             <element name="participantForm" type="boolean"/>
-            <element name="allowAnonymousSubmission" type="boolean"/>
-            <element name="submissionUrl" type="beans:customStringType"/>
-            <element name="offline" type="boolean"/>
             <element name="sourceDataVerificaiton" type="beans:customStringType"/>
             <element name="crf" type="beans:crfObjType" minOccurs="1"/>
             <element name="defaultCrfVersion" type="beans:crfVersionType" minOccurs="1"/>
