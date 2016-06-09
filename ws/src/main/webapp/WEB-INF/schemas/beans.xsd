@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://openclinica.org/ws/beans"
-    xmlns:beans="http://openclinica.org/ws/beans" elementFormDefault="qualified">
+    xmlns:beans="http://openclinica.org/ws/beans" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 
     <complexType name="eventType">
         <sequence>
@@ -51,6 +51,7 @@
             <element name="oid" type="beans:customStringType" />
             <element name="status" type="beans:customStringType"/>
             <element name="version" type="beans:customStringType"/>
+            <element name="containsData" type="xs:boolean"/>
         </sequence>
     </complexType>
 

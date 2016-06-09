@@ -15,6 +15,7 @@ import org.akaza.openclinica.bean.login.UserAccountBean;
 import org.akaza.openclinica.bean.managestudy.*;
 import org.akaza.openclinica.bean.submit.CRFVersionBean;
 import org.akaza.openclinica.bean.submit.EventCRFBean;
+import org.akaza.openclinica.bean.submit.ItemDataBean;
 import org.akaza.openclinica.bean.submit.SubjectBean;
 import org.akaza.openclinica.dao.admin.CRFDAO;
 import org.akaza.openclinica.dao.login.UserAccountDAO;
@@ -24,6 +25,7 @@ import org.akaza.openclinica.dao.managestudy.StudyEventDefinitionDAO;
 import org.akaza.openclinica.dao.managestudy.StudySubjectDAO;
 import org.akaza.openclinica.dao.submit.CRFVersionDAO;
 import org.akaza.openclinica.dao.submit.EventCRFDAO;
+import org.akaza.openclinica.dao.submit.ItemDataDAO;
 import org.akaza.openclinica.dao.submit.SubjectDAO;
 import org.akaza.openclinica.exception.OpenClinicaSystemException;
 import org.akaza.openclinica.i18n.util.ResourceBundleProvider;
@@ -290,12 +292,16 @@ public class StudySubjectEndpoint {
         for (EventCRFBean eventCRFBean : eventCRFBeanList) {
             CRFVersionBean crfVersionBean = (CRFVersionBean) crfVersionDAO.findByPK(eventCRFBean.getCRFVersionId());
             CRFBean crf = crfdao.findByVersionId(crfVersionBean.getCrfId());
+            ItemDataDAO itemDataDAO = new ItemDataDAO(dataSource);
+            ArrayList<ItemDataBean> itemDataBeenList = itemDataDAO.findAllByEventCRFId(eventCRFBean.getId());
             EventCrfType eventCrfType = new EventCrfType();
             eventCrfType.setStatus(eventCRFBean.getStage().getName());
             eventCrfType.setName(crf.getName());
             eventCrfType.setVersion(crfVersionBean.getName());
             eventCrfType.setOid(crfVersionBean.getOid());
+            eventCrfType.setContainsData(! itemDataBeenList.isEmpty());
             eventCrfInformationList.getEventCrf().add(eventCrfType);
+
         }
 
         return eventCrfInformationList;
